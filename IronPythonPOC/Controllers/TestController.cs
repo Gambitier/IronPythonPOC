@@ -21,11 +21,11 @@ namespace IronPythonPOC.Controllers
         [HttpGet]
         public  async Task<IActionResult> Index()
         {
-
             return Ok(new
             {
                 status = 200,
-                message = "success"
+                message = "success",
+                data = new TestPythonActivity().TestPythonCode()
             });
         }
     }

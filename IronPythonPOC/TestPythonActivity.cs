@@ -57,7 +57,7 @@ namespace IronPythonPOC
             };
         }
 
-        public void TestPythonCode()
+        public dynamic TestPythonCode()
         {
             string code = @"
 class PyClass:
@@ -83,9 +83,17 @@ class PyClass:
             pythonActivity.SetVariable("oddNumber", 13);
             pythonActivity.SetVariable("teacher", _teacher);
 
-            var output = pythonActivity.CallFunction("getTotal", 6);
+            var getTotal = pythonActivity.CallFunction("getTotal", 6);
             var getSecondStudent = pythonActivity.CallFunction("getSecondStudent");
             var getModifiedStudentData = pythonActivity.CallFunction("getModifiedStudentData");
+
+
+            return new
+            {
+                getTotal,
+                getSecondStudent,
+                getModifiedStudentData
+            };
         }
     }
 }
