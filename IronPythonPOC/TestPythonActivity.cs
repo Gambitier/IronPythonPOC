@@ -72,27 +72,30 @@ class PyClass:
 
     def getModifiedStudentData(self):
         student = teacher.Students[1]
-        return {
+        self.studentData =  {
             'name': student.Name,
             'familyName': student.Name,
             'age': student.Age,
         }
+        return self.studentData
 ";
             PythonActivity pythonActivity = new PythonActivity();
             pythonActivity.CreatePythonActivity(code);
-            pythonActivity.SetVariable("oddNumber", 13);
-            pythonActivity.SetVariable("teacher", _teacher);
+            pythonActivity.SetScopeVariable("oddNumber", 13);
+            pythonActivity.SetScopeVariable("teacher", _teacher);
 
             var getTotal = pythonActivity.CallFunction("getTotal", 6);
             var getSecondStudent = pythonActivity.CallFunction("getSecondStudent");
             var getModifiedStudentData = pythonActivity.CallFunction("getModifiedStudentData");
 
+            var studentData = pythonActivity.GetInstanceVariable("studentData");
 
             return new
             {
                 getTotal,
                 getSecondStudent,
-                getModifiedStudentData
+                getModifiedStudentData,
+                studentData
             };
         }
     }

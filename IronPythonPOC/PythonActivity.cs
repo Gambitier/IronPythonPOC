@@ -9,7 +9,8 @@ namespace IronPythonPOC
         private ScriptScope scope;
         private ScriptSource source;
         private CompiledCode compiled;
-        private object pythonClass;
+        private dynamic pythonClass;
+        private dynamic instance;
 
         public void CreatePythonActivity(string code, string className = "PyClass")
         {
@@ -24,18 +25,27 @@ namespace IronPythonPOC
             //now executing this code (the code should contain a class)
             compiled.Execute(scope);
 
+
+            instance = engine.Operations.CreateInstance(scope.GetVariable(className));
+
             //now creating an object that could be used to access the stuff inside a python script
             pythonClass = engine.Operations.Invoke(scope.GetVariable(className));
         }
 
-        public void SetVariable(string variable, dynamic value)
+        public void SetScopeVariable(string variable, dynamic value)
         {
             scope.SetVariable(variable, value);
         }
 
-        public dynamic GetVariable(string variable)
+        public dynamic GetScopeVariable(string variable)
         {
             return scope.GetVariable(variable);
+        }
+        
+        public dynamic GetInstanceVariable(string variable)
+        {
+            var value = engine.Operations.GetMember(pythonClass, variable);
+            return value;
         }
 
         public void CallMethod(string method, params dynamic[] arguments)
